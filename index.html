@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MENGENAL PEKERJAAN - Game Sekolah Rendah</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Global Comic Sans MS typography requirement */
+    body, button, input, select, textarea {
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive, sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* First syllable highlight styling */
+    .sk-red {
+      color: #e11d48;
+      font-weight: 800;
+    }
+
+    /* Bounce & pulse animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+    .animate-shake {
+      animation: shake 0.4s ease-in-out;
+    }
+
+    /* Print styling for A4 landscape certificate */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printable-certificate, #printable-certificate * {
+        visibility: visible;
+      }
+      #printable-certificate {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        margin: 0;
+        padding: 1.5cm;
+        box-sizing: border-box;
+        background: white !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        z-index: 99999;
+      }
+      .no-print {
+        display: none !important;
+      }
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body class="bg-amber-50 min-h-screen text-gray-800 flex flex-col justify-between overflow-x-hidden">
+
+  <!-- TOP HEADER / NAVBAR -->
+  <header class="bg-amber-400 border-b-4 border-amber-500 p-3 shadow-md no-print">
+    <div class="max-w-5xl mx-auto flex justify-between items-center px-2">
+      <div class="flex items-center space-x-2 cursor-pointer" onclick="showScreen('start-screen')">
+        <span class="text-3xl animate-bounce">🎒</span>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-black text-amber-950 tracking-wide leading-none">MENGENAL PEKERJAAN</h1>
+          <p class="text-xs text-amber-900 font-semibold">认识职业 - Bahasa Melayu Prasekolah</p>
+        </div>
+      </div>
+      <div id="student-badge" class="hidden bg-white/90 border-2 border-amber-600 rounded-full px-3 py-1 text-xs sm:text-sm font-bold text-amber-900 shadow">
+        👤 <span id="display-student-name">-</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-5xl mx-auto w-full p-3 sm:p-6 flex-1 flex flex-col justify-center">
+
+    <!-- ========================================== -->
+    <!-- SCREEN 0: START MENU & STUDENT NAME INPUT -->
+    <!-- ========================================== -->
+    <div id="start-screen" class="space-y-6">
+      <!-- Title Card -->
+      <div class="bg-white border-4 border-amber-300 rounded-3xl p-6 shadow-xl text-center relative overflow-hidden">
+        <div class="absolute -top-6 -left-6 w-20 h-20 bg-yellow-200 rounded-full opacity-50"></div>
+        <div class="absolute -bottom-6 -right-6 w-24 h-24 bg-orange-200 rounded-full opacity-50"></div>
+        
+        <span class="text-5xl sm:text-6xl inline-block my-2 animate-float">👨‍🚒 👩‍⚕️ 👮 👩‍🏫</span>
+        <h2 class="text-2xl sm:text-4xl font-extrabold text-amber-800 mb-1">MENGENAL PEKERJAAN</h2>
+        <p class="text-sm sm:text-base text-gray-600 font-medium">Kenali Nama Pekerjaan dalam Bahasa Melayu / 学习马来文职业名称</p>
+        
+        <!-- Student Name Input Box -->
+        <div class="max-w-md mx-auto mt-6 bg-amber-100 p-4 rounded-2xl border-2 border-amber-300 shadow-inner">
+          <label for="input-student-name" class="block text-amber-900 font-bold mb-1 text-sm sm:text-base">
+            Nama Murid / 学生姓名: <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="input-student-name" placeholder="Masukkan nama anda / 输入你的姓名" 
+            class="w-full px-4 py-2 text-center rounded-xl border-2 border-amber-400 focus:outline-none focus:ring-2 focus:ring-amber-500 text-lg font-bold text-amber-900 bg-white"
+            oninput="updateStudentName(this.value)">
+        </div>
+      </div>
+
+      <!-- Activity Selection Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Act 1 Button -->
+        <button onclick="startActivity(1)" class="bg-gradient-to-br from-sky-400 to-blue-500 hover:from-sky-500 hover:to-blue-600 text-white rounded-2xl p-5 shadow-lg transform active:scale-95 transition border-b-4 border-blue-700 flex flex-col justify-between text-left group">
+          <div class="flex justify-between items-start w-full">
+            <span class="text-4xl group-hover:scale-110 transition">📇</span>
+            <span id="badge-act1" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold">14 Flashcards</span>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black">1. Kenali Perkataan</h3>
+            <p class="text-xs text-sky-100 font-medium">认读词语 (14 Kad Imbasan)</p>
+          </div>
+        </button>
+
+        <!-- Act 2 Button -->
+        <button onclick="startActivity(2)" class="bg-gradient-to-br from-emerald-400 to-teal-600 hover:from-emerald-500 hover:to-teal-700 text-white rounded-2xl p-5 shadow-lg transform active:scale-95 transition border-b-4 border-teal-800 flex flex-col justify-between text-left group">
+          <div class="flex justify-between items-start w-full">
+            <span class="text-4xl group-hover:scale-110 transition">🧩</span>
+            <span id="badge-act2" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold">2 Pusingan</span>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black">2. Padankan</h3>
+            <p class="text-xs text-emerald-100 font-medium">连一连 (Gambar & Perkataan)</p>
+          </div>
+        </button>
+
+        <!-- Act 3 Button -->
+        <button onclick="startActivity(3)" class="bg-gradient-to-br from-purple-400 to-indigo-600 hover:from-purple-500 hover:to-indigo-700 text-white rounded-2xl p-5 shadow-lg transform active:scale-95 transition border-b-4 border-indigo-800 flex flex-col justify-between text-left group">
+          <div class="flex justify-between items-start w-full">
+            <span class="text-4xl group-hover:scale-110 transition">🔤</span>
+            <span id="badge-act3" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold">14 Soalan</span>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black">3. Susun Huruf</h3>
+            <p class="text-xs text-purple-100 font-medium">字母重组 (Susun Perkataan)</p>
+          </div>
+        </button>
+
+        <!-- Act 4 Button -->
+        <button onclick="startActivity(4)" class="bg-gradient-to-br from-rose-400 to-red-600 hover:from-rose-500 hover:to-red-700 text-white rounded-2xl p-5 shadow-lg transform active:scale-95 transition border-b-4 border-red-800 flex flex-col justify-between text-left group">
+          <div class="flex justify-between items-start w-full">
+            <span class="text-4xl group-hover:scale-110 transition">❓</span>
+            <span id="badge-act4" class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold">14 Soalan</span>
+          </div>
+          <div class="mt-4">
+            <h3 class="text-xl font-black">4. Kuiz Pekerjaan</h3>
+            <p class="text-xs text-rose-100 font-medium">问答游戏 (Pilihan Berganda)</p>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACTIVITY 1: KENALI PERKATAAN (FLASHCARDS) -->
+    <!-- ========================================== -->
+    <div id="act1-screen" class="hidden space-y-4">
+      <!-- Activity Nav -->
+      <div class="flex justify-between items-center bg-white p-3 rounded-2xl border-2 border-amber-200 shadow-sm">
+        <button onclick="showScreen('start-screen')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold text-sm flex items-center space-x-1">
+          <span>🏠 Menu</span>
+        </button>
+        <span class="text-base font-black text-amber-800">1. Kenali Perkataan / 认读词语</span>
+        <span id="act1-counter" class="bg-amber-500 text-white px-3 py-1 rounded-full font-bold text-xs">1 / 14</span>
+      </div>
+
+      <!-- Flashcard Container -->
+      <div class="bg-white border-4 border-sky-300 rounded-3xl p-4 sm:p-6 shadow-xl flex flex-col items-center text-center space-y-4 relative">
+        <!-- Image Card -->
+        <div class="w-full max-w-xs h-52 sm:h-64 rounded-2xl overflow-hidden border-4 border-sky-100 shadow-inner bg-slate-50 flex items-center justify-center p-2">
+          <img id="act1-img" src="" alt="Pekerjaan" class="max-h-full max-w-full object-contain rounded-lg">
+        </div>
+
+        <!-- Suku Kata Display -->
+        <div class="space-y-1">
+          <div id="act1-sk" class="text-2xl sm:text-4xl font-black tracking-wider text-gray-800"></div>
+          <p id="act1-zh" class="text-base text-gray-500 font-semibold"></p>
+        </div>
+
+        <!-- Audio Speaker Button -->
+        <button id="act1-speaker" onclick="speakCurrentAct1()" class="bg-amber-400 hover:bg-amber-500 active:scale-95 text-amber-950 font-black px-6 py-2.5 rounded-2xl shadow-md border-b-4 border-amber-600 flex items-center space-x-2 text-lg">
+          <span class="text-2xl">🔊</span>
+          <span>Dengar / 听发音</span>
+        </button>
+      </div>
+
+      <!-- Navigation Prev / Next -->
+      <div class="flex justify-between items-center pt-2">
+        <button id="act1-prev" onclick="navAct1(-1)" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-5 py-2.5 rounded-2xl shadow text-sm sm:text-base">
+          ⬅️ Sebelum
+        </button>
+        <button id="act1-next" onclick="navAct1(1)" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-6 py-2.5 rounded-2xl shadow text-sm sm:text-base border-b-4 border-sky-700">
+          Seterusnya ➡️
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACTIVITY 2: PADANKAN (MATCHING GAME)      -->
+    <!-- ========================================== -->
+    <div id="act2-screen" class="hidden space-y-4">
+      <div class="flex justify-between items-center bg-white p-3 rounded-2xl border-2 border-amber-200 shadow-sm">
+        <button onclick="showScreen('start-screen')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold text-sm">
+          🏠 Menu
+        </button>
+        <div class="text-center">
+          <h2 class="text-base font-black text-amber-800">2. Padankan Gambar dengan Perkataan</h2>
+          <p id="act2-pusingan-label" class="text-xs text-gray-500 font-bold">Pusingan 1 daripada 2 (7 Item)</p>
+        </div>
+        <span id="act2-score" class="bg-emerald-500 text-white px-3 py-1 rounded-full font-bold text-xs">Skor: 0 / 14</span>
+      </div>
+
+      <!-- Matching Canvas / Area -->
+      <div id="act2-container" class="relative bg-white border-4 border-emerald-300 rounded-3xl p-3 sm:p-5 shadow-xl min-h-[420px] flex justify-between gap-2 sm:gap-6">
+        <!-- SVG Canvas overlay for line drawing -->
+        <svg id="act2-svg" class="absolute inset-0 w-full h-full pointer-events-none z-10"></svg>
+
+        <!-- Left Column: Images -->
+        <div id="act2-col-left" class="w-1/2 space-y-3 z-20 flex flex-col justify-around"></div>
+
+        <!-- Right Column: Words -->
+        <div id="act2-col-right" class="w-1/2 space-y-3 z-20 flex flex-col justify-around"></div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACTIVITY 3: SUSUN HURUF (LETTER UNSCRAMBLE) -->
+    <!-- ========================================== -->
+    <div id="act3-screen" class="hidden space-y-4">
+      <div class="flex justify-between items-center bg-white p-3 rounded-2xl border-2 border-amber-200 shadow-sm">
+        <button onclick="showScreen('start-screen')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold text-sm">
+          🏠 Menu
+        </button>
+        <span class="text-base font-black text-amber-800">3. Susun Huruf / 字母重组</span>
+        <span id="act3-progress" class="bg-purple-600 text-white px-3 py-1 rounded-full font-bold text-xs">1 / 14</span>
+      </div>
+
+      <div class="bg-white border-4 border-purple-300 rounded-3xl p-4 sm:p-6 shadow-xl flex flex-col items-center space-y-5 text-center">
+        <!-- Image Card -->
+        <div class="w-full max-w-xs h-40 sm:h-48 rounded-2xl overflow-hidden border-4 border-purple-100 bg-slate-50 flex items-center justify-center p-2 shadow-inner">
+          <img id="act3-img" src="" alt="Pekerjaan" class="max-h-full max-w-full object-contain rounded-lg">
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <p id="act3-zh" class="text-sm font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200"></p>
+          <button onclick="speakCurrentAct3()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold p-2 rounded-full shadow text-sm" title="Dengar">🔊</button>
+        </div>
+
+        <!-- Letter Target Slots Container -->
+        <div id="act3-slots-container" class="flex flex-col items-center justify-center gap-3 my-2 w-full"></div>
+
+        <!-- Scrambled Tile Bank -->
+        <div id="act3-tiles-container" class="flex flex-wrap justify-center gap-2 p-3 bg-purple-50 rounded-2xl border-2 border-purple-200 w-full min-h-[70px]"></div>
+
+        <!-- Action Control Buttons -->
+        <div class="flex flex-wrap justify-center gap-3 pt-2 w-full">
+          <button onclick="resetAct3Slots()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-4 py-2 rounded-xl text-sm shadow">
+            🔄 Padam / 清除
+          </button>
+          <button onclick="checkAct3Answer()" class="bg-purple-600 hover:bg-purple-700 text-white font-black px-8 py-2.5 rounded-xl text-base shadow-lg border-b-4 border-purple-800 active:scale-95 transition">
+            ✔️ Semak / 检查
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ACTIVITY 4: KUIZ PEKERJAAN (QUIZ GAME)    -->
+    <!-- ========================================== -->
+    <div id="act4-screen" class="hidden space-y-4">
+      <div class="flex justify-between items-center bg-white p-3 rounded-2xl border-2 border-amber-200 shadow-sm">
+        <button onclick="showScreen('start-screen')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 px-3 py-1.5 rounded-xl font-bold text-sm">
+          🏠 Menu
+        </button>
+        <span class="text-base font-black text-amber-800">4. Kuiz Pekerjaan / 问答游戏</span>
+        <span id="act4-progress" class="bg-rose-500 text-white px-3 py-1 rounded-full font-bold text-xs">Soalan 1 / 14</span>
+      </div>
+
+      <div class="bg-white border-4 border-rose-300 rounded-3xl p-4 sm:p-6 shadow-xl flex flex-col items-center space-y-4 text-center">
+        <h3 class="text-lg sm:text-xl font-black text-rose-900">Apakah pekerjaan dalam gambar ini?</h3>
+        <p class="text-xs text-gray-500 font-semibold -mt-2">请选出图中正确的职业名称</p>
+
+        <!-- Question Image -->
+        <div class="w-full max-w-xs h-44 sm:h-52 rounded-2xl overflow-hidden border-4 border-rose-100 bg-slate-50 flex items-center justify-center p-2 shadow-inner">
+          <img id="act4-img" src="" alt="Soalan Kuiz" class="max-h-full max-w-full object-contain rounded-lg">
+        </div>
+
+        <!-- 4 Multiple Choice Options Grid -->
+        <div id="act4-options" class="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full pt-2"></div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- OVERLAY / CERTIFICATE MODAL               -->
+    <!-- ========================================== -->
+    <div id="cert-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-2 sm:p-4 overflow-y-auto">
+      <div class="bg-white rounded-3xl max-w-3xl w-full p-4 sm:p-8 shadow-2xl border-8 border-amber-300 relative text-center space-y-4">
+        
+        <!-- Action Buttons (No Print) -->
+        <div class="flex justify-between items-center no-print">
+          <button onclick="closeCertModal()" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold px-4 py-2 rounded-xl text-sm">
+            ❌ Tutup / 关闭
+          </button>
+          <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-white font-black px-6 py-2 rounded-xl text-sm shadow-lg border-b-4 border-amber-700 flex items-center space-x-2">
+            <span>🖨️ Cetak Sijil / 打印证书</span>
+          </button>
+        </div>
+
+        <!-- Printable Certificate Area -->
+        <div id="printable-certificate" class="border-8 border-double border-amber-500 p-6 sm:p-10 rounded-2xl bg-amber-50/50 relative overflow-hidden flex flex-col justify-between min-h-[480px]">
+          <!-- Corner Ribbon / Star Decorations -->
+          <div class="absolute top-2 left-2 text-3xl">⭐</div>
+          <div class="absolute top-2 right-2 text-3xl">⭐</div>
+          <div class="absolute bottom-2 left-2 text-3xl">🎓</div>
+          <div class="absolute bottom-2 right-2 text-3xl">🎓</div>
+
+          <!-- Certificate Header -->
+          <div class="space-y-1">
+            <h1 class="text-3xl sm:text-4xl font-black text-amber-800 tracking-wider">SIJIL PENCAPAIAN</h1>
+            <p class="text-xs sm:text-sm font-bold text-amber-600 tracking-widest uppercase">Achievement Certificate • 软件成就证书</p>
+          </div>
+
+          <!-- Certificate Body -->
+          <div class="my-4 space-y-3">
+            <p class="text-sm text-gray-600 font-medium">Sijil ini dianugerahkan kepada / 兹证明:</p>
+            <div id="cert-student-name" class="text-2xl sm:text-3xl font-black text-indigo-900 border-b-2 border-amber-400 inline-block px-8 py-1 my-1">
+              -
+            </div>
+            <p class="text-sm text-gray-700 font-semibold max-w-lg mx-auto">
+              kerana telah berjaya menyempurnakan aktiviti:
+            </p>
+            <div id="cert-act-title" class="text-lg sm:text-xl font-extrabold text-amber-700 bg-amber-100 py-1 px-4 rounded-full inline-block border border-amber-300">
+              Kenali Perkataan
+            </div>
+
+            <!-- Score / Mark Banner -->
+            <div class="flex justify-center items-center space-x-6 pt-3">
+              <div class="bg-white px-4 py-2 rounded-xl border border-amber-200 shadow-sm">
+                <span class="text-xs text-gray-500 block">Markah / 分数</span>
+                <span id="cert-score-val" class="text-xl font-black text-emerald-600">14 / 14</span>
+              </div>
+              <div class="bg-white px-4 py-2 rounded-xl border border-amber-200 shadow-sm">
+                <span class="text-xs text-gray-500 block">Peratus / 百分比</span>
+                <span id="cert-percent-val" class="text-xl font-black text-blue-600">100%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Certificate Footer -->
+          <div class="flex justify-between items-end pt-6 border-t-2 border-amber-200">
+            <div class="text-left text-xs text-gray-500">
+              <p>Tarikh / 日期: <span id="cert-date-val" class="font-bold text-gray-700">--/--/----</span></p>
+              <p class="mt-1">MENGENAL PEKERJAAN - KPM Prasekolah</p>
+            </div>
+            <div class="text-center">
+              <div class="border-b-2 border-gray-400 w-40 sm:w-48 mb-1"></div>
+              <p class="text-xs font-bold text-gray-600">Tandatangan Guru / 教师签名</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-amber-200 text-amber-900 text-center text-xs py-2 border-t-2 border-amber-300 no-print">
+    MENGENAL PEKERJAAN • Bahasa Melayu Sekolah Rendah / Prasekolah KPM
+  </footer>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    /* ===================================================================
+       1. DATA DEFINITION FOR 14 OCCUPATIONS & FILE MAPPING
+       =================================================================== */
+    const occupations = [
+      { id: 'polis', name: 'polis', file: 'polis.png', skDisplay: 'po - lis', skRed: 'po', skRest: 'lis', emoji: '👮', zh: '警察' },
+      { id: 'bomba', name: 'bomba', file: 'bomba.png', skDisplay: 'bom - ba', skRed: 'bom', skRest: 'ba', emoji: '👨‍🚒', zh: '消防员' },
+      { id: 'doktor', name: 'doktor', file: 'doktor.png', skDisplay: 'dok - tor', skRed: 'dok', skRest: 'tor', emoji: '👩‍⚕️', zh: '医生' },
+      { id: 'guru', name: 'guru', file: 'guru.png', skDisplay: 'gu - ru', skRed: 'gu', skRest: 'ru', emoji: '👩‍🏫', zh: '教师' },
+      { id: 'penghantar', name: 'penghantar barang', file: 'penghantar.png', skDisplay: 'peng - han - tar  ba - rang', skRed: 'peng', skRest: 'hantar barang', emoji: '📦', zh: '送货员' },
+      { id: 'tukang-masak', name: 'tukang masak', file: 'tukang-masak.png', skDisplay: 'tu - kang  ma - sak', skRed: 'tu', skRest: 'kang masak', emoji: '👨‍🍳', zh: '厨师' },
+      { id: 'pemandu-bas', name: 'pemandu bas', file: 'pemandu-bas.png', skDisplay: 'pe - man - du  bas', skRed: 'pe', skRest: 'mandu bas', emoji: '🚌', zh: '巴士司机' },
+      { id: 'juruterbang', name: 'juruterbang', file: 'juruterbang.png', skDisplay: 'ju - ru - ter - bang', skRed: 'ju', skRest: 'ruterbang', emoji: '👨‍✈️', zh: '飞行员' },
+      { id: 'jurutera', name: 'jurutera', file: 'jurutera.png', skDisplay: 'ju - ru - te - ra', skRed: 'ju', skRest: 'rutera', emoji: '👷', zh: '工程师' },
+      { id: 'peguam', name: 'peguam', file: 'peguam.png', skDisplay: 'pe - gu - am', skRed: 'pe', skRest: 'guam', emoji: '⚖️', zh: '律师' },
+      { id: 'hakim', name: 'hakim', file: 'hakim.png', skDisplay: 'ha - kim', skRed: 'ha', skRest: 'kim', emoji: '👨‍⚖️', zh: '法官' },
+      { id: 'tentera', name: 'tentera', file: 'tentera.png', skDisplay: 'ten - te - ra', skRed: 'ten', skRest: 'tera', emoji: '💂', zh: '军人' },
+      { id: 'jururawat', name: 'jururawat', file: 'jururawat.png', skDisplay: 'ju - ru - ra - wat', skRed: 'ju', skRest: 'rurawat', emoji: '🩺', zh: '护士' },
+      { id: 'pengawal-keselamatan', name: 'pengawal keselamatan', file: 'pengawal-keselamatan.png', skDisplay: 'peng - a - wal  ke - se - la - ma - tan', skRed: 'peng', skRest: 'awal keselamatan', emoji: '🛡️', zh: '保安人员' }
+    ];
+
+    /* App Global State */
+    let studentName = "";
+    let userProgress = {
+      act1Score: 0, act1Done: false,
+      act2Score: 0, act2Done: false,
+      act3Score: 0, act3Done: false,
+      act4Score: 0, act4Done: false
+    };
+
+    /* ===================================================================
+       2. IMAGE ONERROR VECTOR FALLBACK HANDLER
+       Generates a friendly vector SVG card if the local PNG image is missing.
+       =================================================================== */
+    function handleImgError(imgElement, occupationId) {
+      imgElement.onerror = null; // prevent infinite loops
+      const item = occupations.find(o => o.id === occupationId) || { name: occupationId, emoji: '💼' };
+      const titleUpper = item.name.toUpperCase();
+
+      const colorPalettes = [
+        ['#3B82F6', '#1D4ED8'], // Blue
+        ['#EF4444', '#B91C1C'], // Red
+        ['#10B981', '#047857'], // Green
+        ['#F59E0B', '#B45309'], // Amber
+        ['#8B5CF6', '#6D28D9'], // Purple
+        ['#EC4899', '#BE185D']  // Pink
+      ];
+      
+      const charCodeSum = occupationId.split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+      const [c1, c2] = colorPalettes[charCodeSum % colorPalettes.length];
+
+      const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+        <defs>
+          <linearGradient id="g_${occupationId}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:${c1};stop-opacity:1" />
+            <stop offset="100%" style="stop-color:${c2};stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="300" rx="24" fill="url(#g_${occupationId})" />
+        <circle cx="200" cy="115" r="55" fill="white" opacity="0.95"/>
+        <text x="200" y="132" font-size="56" text-anchor="middle">${item.emoji}</text>
+        <rect x="30" y="195" width="340" height="70" rx="16" fill="rgba(255,255,255,0.22)" />
+        <text x="200" y="238" font-size="22" font-weight="bold" fill="white" text-anchor="middle" font-family="'Comic Sans MS', sans-serif">${titleUpper}</text>
+      </svg>`;
+
+      imgElement.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgData);
+    }
+
+    /* Helper function to attach image src with onerror fallback */
+    function setImageWithFallback(imgElement, occupationObj) {
+      imgElement.onerror = function() { handleImgError(this, occupationObj.id); };
+      imgElement.src = occupationObj.file;
+    }
+
+    /* ===================================================================
+       3. TEXT-TO-SPEECH (SPEECH SYNTHESIS) & SOUND EFFECTS
+       =================================================================== */
+    function speak(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'ms-MY';
+      utterance.rate = 0.85; // slightly slower for preschool students
+      utterance.pitch = 1.1;
+
+      const voices = window.speechSynthesis.getVoices();
+      const msVoice = voices.find(v => v.lang && (v.lang.includes('ms') || v.lang.includes('id')));
+      if (msVoice) utterance.voice = msVoice;
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    /* Web Audio API Sound Effects */
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playAudioFx(type) {
+      try {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        const now = audioCtx.currentTime;
+
+        if (type === 'correct') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.exponentialRampToValueAtTime(783.99, now + 0.2); // G5
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+          osc.start(now);
+          osc.stop(now + 0.35);
+        } else if (type === 'wrong') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(280, now);
+          osc.frequency.exponentialRampToValueAtTime(140, now + 0.25);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+          osc.start(now);
+          osc.stop(now + 0.25);
+        }
+      } catch (e) { console.log(e); }
+    }
+
+    /* Helper: Format Suku Kata HTML (First Syllable RED) */
+    function getSukuKataFormattedHTML(item) {
+      return `<span class="sk-red">${item.skRed}</span><span>${item.skRest}</span>`;
+    }
+
+    /* ===================================================================
+       4. NAVIGATION & NAVIGATION SCREEN LOGIC
+       =================================================================== */
+    function updateStudentName(val) {
+      studentName = val.trim();
+      const badge = document.getElementById('student-badge');
+      const nameDisplay = document.getElementById('display-student-name');
+      if (studentName) {
+        nameDisplay.textContent = studentName;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function checkStudentNameProvided() {
+      if (!studentName) {
+        alert("Sila masukkan nama murid terlebih dahulu! / 请先输入学生姓名！");
+        document.getElementById('input-student-name').focus();
+        return false;
+      }
+      return true;
+    }
+
+    function showScreen(screenId) {
+      ['start-screen', 'act1-screen', 'act2-screen', 'act3-screen', 'act4-screen'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(screenId).classList.remove('hidden');
+      window.scrollTo(0,0);
+    }
+
+    function startActivity(actNum) {
+      if (!checkStudentNameProvided()) return;
+      if (actNum === 1) initAct1();
+      else if (actNum === 2) initAct2();
+      else if (actNum === 3) initAct3();
+      else if (actNum === 4) initAct4();
+    }
+
+    /* ===================================================================
+       5. ACTIVITY 1: KENALI PERKATAAN (FLASHCARDS)
+       =================================================================== */
+    let act1Index = 0;
+    function initAct1() {
+      act1Index = 0;
+      renderAct1Card();
+      showScreen('act1-screen');
+    }
+
+    function renderAct1Card() {
+      const item = occupations[act1Index];
+      const imgEl = document.getElementById('act1-img');
+      setImageWithFallback(imgEl, item);
+
+      document.getElementById('act1-counter').textContent = `${act1Index + 1} / ${occupations.length}`;
+      
+      // Syllable text display with Red 1st syllable
+      document.getElementById('act1-sk').innerHTML = getSukuKataFormattedHTML(item);
+      document.getElementById('act1-zh').textContent = item.zh;
+
+      // Disable/Enable nav buttons
+      document.getElementById('act1-prev').disabled = (act1Index === 0);
+      document.getElementById('act1-prev').style.opacity = (act1Index === 0) ? '0.4' : '1';
+    }
+
+    function navAct1(dir) {
+      act1Index += dir;
+      if (act1Index >= occupations.length) {
+        userProgress.act1Done = true;
+        userProgress.act1Score = 14;
+        updateBadges();
+        openCertModal("Kenali Perkataan", 14, 14);
+        showScreen('start-screen');
+        return;
+      }
+      if (act1Index < 0) act1Index = 0;
+      renderAct1Card();
+    }
+
+    function speakCurrentAct1() {
+      speak(occupations[act1Index].name);
+    }
+
+    /* ===================================================================
+       6. ACTIVITY 2: PADANKAN (MATCHING LINES GAME)
+       =================================================================== */
+    let act2Pusingan = 1; // 1 or 2
+    let act2MatchedCount = 0;
+    let act2SelectedLeft = null; // { id, element }
+    let act2SelectedRight = null; // { id, element }
+    let act2CurrentItems = [];
+    let act2TotalCorrect = 0;
+
+    function initAct2() {
+      act2Pusingan = 1;
+      act2TotalCorrect = 0;
+      setupAct2Pusingan();
+      showScreen('act2-screen');
+    }
+
+    function setupAct2Pusingan() {
+      act2MatchedCount = 0;
+      act2SelectedLeft = null;
+      act2SelectedRight = null;
+
+      const svg = document.getElementById('act2-svg');
+      svg.innerHTML = ''; // Clear SVG lines
+
+      const startIndex = (act2Pusingan - 1) * 7;
+      act2CurrentItems = occupations.slice(startIndex, startIndex + 7);
+
+      document.getElementById('act2-pusingan-label').textContent = `Pusingan ${act2Pusingan} daripada 2 (7 Item)`;
+      document.getElementById('act2-score').textContent = `Skor: ${act2TotalCorrect} / 14`;
+
+      // Shuffle left images and right text
+      const leftList = [...act2CurrentItems].sort(() => Math.random() - 0.5);
+      const rightList = [...act2CurrentItems].sort(() => Math.random() - 0.5);
+
+      const colLeft = document.getElementById('act2-col-left');
+      const colRight = document.getElementById('act2-col-right');
+
+      colLeft.innerHTML = '';
+      colRight.innerHTML = '';
+
+      leftList.forEach(item => {
+        const btn = document.createElement('button');
+        btn.dataset.id = item.id;
+        btn.className = "w-full bg-slate-50 border-3 border-emerald-200 rounded-2xl p-2 shadow flex items-center justify-center hover:bg-emerald-50 transition min-h-[64px]";
+        btn.onclick = () => selectAct2Item('left', item.id, btn);
+
+        const img = document.createElement('img');
+        img.className = "h-12 sm:h-16 max-w-full object-contain rounded";
+        setImageWithFallback(img, item);
+
+        btn.appendChild(img);
+        colLeft.appendChild(btn);
+      });
+
+      rightList.forEach(item => {
+        const btn = document.createElement('button');
+        btn.dataset.id = item.id;
+        btn.className = "w-full bg-slate-50 border-3 border-emerald-200 rounded-2xl p-2 shadow text-center hover:bg-emerald-50 transition text-sm sm:text-base font-bold min-h-[64px] flex items-center justify-center";
+        btn.innerHTML = getSukuKataFormattedHTML(item);
+        btn.onclick = () => selectAct2Item('right', item.id, btn);
+        colRight.appendChild(btn);
+      });
+    }
+
+    function selectAct2Item(col, id, element) {
+      if (element.disabled) return;
+
+      if (col === 'left') {
+        if (act2SelectedLeft) act2SelectedLeft.element.classList.remove('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+        act2SelectedLeft = { id, element };
+        element.classList.add('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+        speak(occupations.find(o=>o.id===id).name);
+      } else {
+        if (act2SelectedRight) act2SelectedRight.element.classList.remove('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+        act2SelectedRight = { id, element };
+        element.classList.add('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+      }
+
+      // If both selected, test match!
+      if (act2SelectedLeft && act2SelectedRight) {
+        evaluateAct2Match();
+      }
+    }
+
+    function evaluateAct2Match() {
+      const isCorrect = (act2SelectedLeft.id === act2SelectedRight.id);
+      const leftElem = act2SelectedLeft.element;
+      const rightElem = act2SelectedRight.element;
+
+      // Draw SVG Line
+      const line = drawSVGLineBetween(leftElem, rightElem, isCorrect ? '#10B981' : '#EF4444');
+
+      if (isCorrect) {
+        playAudioFx('correct');
+        act2TotalCorrect++;
+        act2MatchedCount++;
+        document.getElementById('act2-score').textContent = `Skor: ${act2TotalCorrect} / 14`;
+
+        leftElem.disabled = true;
+        rightElem.disabled = true;
+        leftElem.classList.replace('bg-emerald-100', 'bg-emerald-200');
+        rightElem.classList.replace('bg-emerald-100', 'bg-emerald-200');
+
+        act2SelectedLeft = null;
+        act2SelectedRight = null;
+
+        // Check end of pusingan
+        if (act2MatchedCount >= 7) {
+          setTimeout(() => {
+            if (act2Pusingan === 1) {
+              act2Pusingan = 2;
+              setupAct2Pusingan();
+            } else {
+              userProgress.act2Done = true;
+              userProgress.act2Score = act2TotalCorrect;
+              updateBadges();
+              openCertModal("Padankan Gambar dengan Perkataan", act2TotalCorrect, 14);
+              showScreen('start-screen');
+            }
+          }, 1000);
+        }
+      } else {
+        playAudioFx('wrong');
+        setTimeout(() => {
+          if (line) line.remove();
+          leftElem.classList.remove('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+          rightElem.classList.remove('ring-4', 'ring-emerald-400', 'bg-emerald-100');
+          act2SelectedLeft = null;
+          act2SelectedRight = null;
+        }, 600);
+      }
+    }
+
+    function drawSVGLineBetween(elem1, elem2, color) {
+      const container = document.getElementById('act2-container');
+      const cRect = container.getBoundingClientRect();
+      const r1 = elem1.getBoundingClientRect();
+      const r2 = elem2.getBoundingClientRect();
+
+      const x1 = r1.right - cRect.left;
+      const y1 = r1.top + r1.height/2 - cRect.top;
+      const x2 = r2.left - cRect.left;
+      const y2 = r2.top + r2.height/2 - cRect.top;
+
+      const svg = document.getElementById('act2-svg');
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1);
+      line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2);
+      line.setAttribute('y2', y2);
+      line.setAttribute('stroke', color);
+      line.setAttribute('stroke-width', '4');
+      line.setAttribute('stroke-dasharray', '6 3');
+      svg.appendChild(line);
+      return line;
+    }
+
+    /* ===================================================================
+       7. ACTIVITY 3: SUSUN HURUF (LETTER UNSCRAMBLE)
+       =================================================================== */
+    let act3Index = 0;
+    let act3TargetWord = "";
+    let act3CurrentWordArr = [];
+    let act3AvailableLetters = [];
+    let act3UserSelections = [];
+    let act3Score = 0;
+
+    function initAct3() {
+      act3Index = 0;
+      act3Score = 0;
+      setupAct3Question();
+      showScreen('act3-screen');
+    }
+
+    function setupAct3Question() {
+      const item = occupations[act3Index];
+      document.getElementById('act3-progress').textContent = `${act3Index + 1} / ${occupations.length}`;
+      document.getElementById('act3-zh').textContent = item.zh;
+
+      const imgEl = document.getElementById('act3-img');
+      setImageWithFallback(imgEl, item);
+
+      act3TargetWord = item.name.toLowerCase();
+      // Prepare scrambled letters (excluding space)
+      const cleanLetters = act3TargetWord.replace(/\s+/g, '').split('');
+      act3AvailableLetters = [...cleanLetters].sort(() => Math.random() - 0.5);
+      act3UserSelections = new Array(cleanLetters.length).fill(null);
+
+      renderAct3SlotsAndTiles();
+    }
+
+    function renderAct3SlotsAndTiles() {
+      const slotsContainer = document.getElementById('act3-slots-container');
+      const tilesContainer = document.getElementById('act3-tiles-container');
+
+      slotsContainer.innerHTML = '';
+      tilesContainer.innerHTML = '';
+
+      // Split words for multi-word occupations
+      const words = act3TargetWord.split(' ');
+      let globalCharIndex = 0;
+
+      words.forEach((word) => {
+        const row = document.createElement('div');
+        row.className = "flex justify-center gap-1.5 sm:gap-2 my-1";
+
+        for (let i = 0; i < word.length; i++) {
+          const idx = globalCharIndex;
+          const slot = document.createElement('button');
+          slot.className = "w-8 h-10 sm:w-11 sm:h-12 border-2 border-purple-400 bg-white rounded-xl text-lg sm:text-xl font-black text-purple-900 flex items-center justify-center shadow-inner";
+          
+          if (act3UserSelections[idx] !== null) {
+            slot.textContent = act3UserSelections[idx].letter.toUpperCase();
+            slot.onclick = () => removeAct3Letter(idx);
+          } else {
+            slot.textContent = '';
+          }
+          row.appendChild(slot);
+          globalCharIndex++;
+        }
+        slotsContainer.appendChild(row);
+      });
+
+      // Scrambled letter tiles
+      act3AvailableLetters.forEach((item, tileIdx) => {
+        const btn = document.createElement('button');
+        btn.className = "w-9 h-11 sm:w-11 sm:h-12 bg-purple-500 hover:bg-purple-600 text-white rounded-xl text-lg font-black shadow-md border-b-4 border-purple-800 transform active:scale-95 transition flex items-center justify-center";
+        
+        if (item.used) {
+          btn.classList.add('opacity-30', 'pointer-events-none');
+        } else {
+          btn.onclick = () => selectAct3Letter(item.letter, tileIdx);
+        }
+        btn.textContent = item.letter.toUpperCase();
+        tilesContainer.appendChild(btn);
+      });
+    }
+
+    function selectAct3Letter(letter, tileIdx) {
+      // Find first empty slot
+      const emptyIndex = act3UserSelections.findIndex(x => x === null);
+      if (emptyIndex === -1) return;
+
+      act3AvailableLetters[tileIdx].used = true;
+      act3UserSelections[emptyIndex] = { letter, tileIdx };
+      renderAct3SlotsAndTiles();
+    }
+
+    function removeAct3Letter(slotIdx) {
+      const selection = act3UserSelections[slotIdx];
+      if (!selection) return;
+
+      act3AvailableLetters[selection.tileIdx].used = false;
+      act3UserSelections[slotIdx] = null;
+      renderAct3SlotsAndTiles();
+    }
+
+    function resetAct3Slots() {
+      act3AvailableLetters.forEach(l => l.used = false);
+      act3UserSelections.fill(null);
+      renderAct3SlotsAndTiles();
+    }
+
+    function checkAct3Answer() {
+      const userBuilt = act3UserSelections.map(x => x ? x.letter : '').join('');
+      const targetClean = act3TargetWord.replace(/\s+/g, '');
+
+      if (userBuilt === targetClean) {
+        playAudioFx('correct');
+        speak(occupations[act3Index].name);
+        act3Score++;
+        
+        setTimeout(() => {
+          act3Index++;
+          if (act3Index >= occupations.length) {
+            userProgress.act3Done = true;
+            userProgress.act3Score = act3Score;
+            updateBadges();
+            openCertModal("Susun Huruf", act3Score, 14);
+            showScreen('start-screen');
+          } else {
+            setupAct3Question();
+          }
+        }, 1200);
+      } else {
+        playAudioFx('wrong');
+        const container = document.getElementById('act3-slots-container');
+        container.classList.add('animate-shake');
+        setTimeout(() => container.classList.remove('animate-shake'), 500);
+      }
+    }
+
+    function speakCurrentAct3() {
+      speak(occupations[act3Index].name);
+    }
+
+    /* Helper transform for internal available array structure */
+    const origSetupAct3Question = setupAct3Question;
+    setupAct3Question = function() {
+      origSetupAct3Question();
+      act3AvailableLetters = act3AvailableLetters.map((letter) => ({ letter, used: false }));
+      renderAct3SlotsAndTiles();
+    };
+
+    /* ===================================================================
+       8. ACTIVITY 4: KUIZ PEKERJAAN (QUIZ)
+       =================================================================== */
+    let act4Index = 0;
+    let act4Score = 0;
+
+    function initAct4() {
+      act4Index = 0;
+      act4Score = 0;
+      setupAct4Question();
+      showScreen('act4-screen');
+    }
+
+    function setupAct4Question() {
+      const currentItem = occupations[act4Index];
+      document.getElementById('act4-progress').textContent = `Soalan ${act4Index + 1} / 14`;
+
+      const imgEl = document.getElementById('act4-img');
+      setImageWithFallback(imgEl, currentItem);
+
+      // Distractors
+      const distractors = occupations.filter(o => o.id !== currentItem.id).sort(() => Math.random() - 0.5).slice(0, 3);
+      const choices = [...distractors, currentItem].sort(() => Math.random() - 0.5);
+
+      const optionsGrid = document.getElementById('act4-options');
+      optionsGrid.innerHTML = '';
+
+      choices.forEach(choice => {
+        const card = document.createElement('div');
+        card.className = "bg-rose-50 hover:bg-rose-100 border-3 border-rose-200 rounded-2xl p-3 shadow flex items-center justify-between cursor-pointer transition transform active:scale-95";
+
+        const textSpan = document.createElement('span');
+        textSpan.className = "text-base sm:text-lg font-bold text-gray-800 text-left pl-2";
+        textSpan.innerHTML = getSukuKataFormattedHTML(choice);
+
+        // Independent TTS Speaker Icon
+        const speakerBtn = document.createElement('button');
+        speakerBtn.className = "bg-amber-300 hover:bg-amber-400 text-amber-950 p-2 rounded-xl text-sm font-bold shadow-sm border border-amber-400 ml-2";
+        speakerBtn.innerHTML = "🔊";
+        speakerBtn.title = "Dengar / 听";
+        speakerBtn.onclick = (e) => {
+          e.stopPropagation(); // prevent option selection
+          speak(choice.name);
+        };
+
+        card.appendChild(textSpan);
+        card.appendChild(speakerBtn);
+
+        card.onclick = () => submitAct4Answer(choice.id === currentItem.id, card);
+        optionsGrid.appendChild(card);
+      });
+    }
+
+    function submitAct4Answer(isCorrect, cardElem) {
+      // Disable options after choice
+      const allCards = document.getElementById('act4-options').children;
+      for (let c of allCards) c.style.pointerEvents = 'none';
+
+      if (isCorrect) {
+        playAudioFx('correct');
+        cardElem.classList.add('bg-emerald-200', 'border-emerald-500', 'ring-4', 'ring-emerald-300');
+        act4Score++;
+      } else {
+        playAudioFx('wrong');
+        cardElem.classList.add('bg-red-200', 'border-red-500', 'animate-shake');
+      }
+
+      setTimeout(() => {
+        act4Index++;
+        if (act4Index >= occupations.length) {
+          userProgress.act4Done = true;
+          userProgress.act4Score = act4Score;
+          updateBadges();
+          openCertModal("Kuiz Mengenal Pekerjaan", act4Score, 14);
+          showScreen('start-screen');
+        } else {
+          setupAct4Question();
+        }
+      }, 1200);
+    }
+
+    /* ===================================================================
+       9. CERTIFICATE MODAL & UPDATE PROGRESS
+       =================================================================== */
+    function openCertModal(actTitle, score, total) {
+      document.getElementById('cert-student-name').textContent = studentName || "MURID PRASEKOLAH";
+      document.getElementById('cert-act-title').textContent = actTitle;
+      document.getElementById('cert-score-val').textContent = `${score} / ${total}`;
+      
+      const pct = Math.round((score / total) * 100);
+      document.getElementById('cert-percent-val').textContent = `${pct}%`;
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('ms-MY', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('cert-date-val').textContent = dateStr;
+
+      document.getElementById('cert-modal').classList.remove('hidden');
+    }
+
+    function closeCertModal() {
+      document.getElementById('cert-modal').classList.add('hidden');
+    }
+
+    function updateBadges() {
+      if (userProgress.act1Done) document.getElementById('badge-act1').textContent = `✅ Selesai (14/14)`;
+      if (userProgress.act2Done) document.getElementById('badge-act2').textContent = `✅ Skor: ${userProgress.act2Score}/14`;
+      if (userProgress.act3Done) document.getElementById('badge-act3').textContent = `✅ Skor: ${userProgress.act3Score}/14`;
+      if (userProgress.act4Done) document.getElementById('badge-act4').textContent = `✅ Skor: ${userProgress.act4Score}/14`;
+    }
+
+    // Init voices on load
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
+    }
+  </script>
+</body>
+</html>
